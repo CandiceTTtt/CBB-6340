@@ -1,11 +1,12 @@
 # CBB-6340
 Xintong Chen
+
 NetID: xc463
 
 # Exercise 1: Analyzing COVID-19 Case Data
 ## Repository Files
 
-- `hw1.py`: Main Python script containing the data loading, visualization, peak-date analysis, and Florida anomaly analysis.
+- `studio1.py`: Main Python script containing the data loading, visualization, peak-date analysis, and Florida anomaly analysis.
 - `us-states.csv`: COVID-19 case data from The New York Times.
 - `daily_cases.png`: Visualization of daily new COVID-19 cases for selected states.
 - `fl_plot.png`: Visualization of daily new COVID-19 cases for Florida.
