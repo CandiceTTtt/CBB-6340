@@ -46,17 +46,6 @@ Daily reported case counts are highly variable over time, with several sharp spi
 The figure also demonstrates that daily reported case counts can contain substantial short-term variation. Therefore, a single-day maximum should be interpreted carefully because it may reflect reporting patterns rather than the true timing of infections.
 
 
-### Figure
-
-![Daily New COVID-19 Cases](daily_cases.png)
-
-### Design Choice and Limitation
-
-I used the difference between consecutive cumulative case counts to calculate daily reported cases. The first observation for each state has no previous observation, so its difference is `NaN`. I used `fillna(0)` so that the resulting series could be plotted and processed consistently.
-
-However, we still have great limitation of the dataset that the resulting daily case counts represent changes in reported cumulative cases, not necessarily infections that actually occurred on that specific date. Reporting delays, backlogs, and revisions to previously reported case totals can create unusually large positive or negative values.
-
-
 ### 1c. Identifying Peak Case Dates
 The `get_peak_date()` function identifies the date on which a state experienced its highest calculated number of daily reported cases.
 
