@@ -35,11 +35,11 @@ The original `cases` column contains cumulative reported case counts rather than
 
 The `plot_daily_cases()` function accepts a list of state names and creates an overlaid line plot showing their daily reported cases over time.
 
-### Figure
+Example figure:
 
 ![Daily New COVID-19 Cases](daily_cases.png)
 
-### Key Observations
+#### Observations
 
 The four states show similar overall waves of COVID-19 cases, but the timing and magnitude of these waves differ across states.
 
@@ -72,7 +72,7 @@ Connecticut reached its peak first.
 The peaks were 8 days apart.
 ```
 
-### Extension: Comparing Peak Timing Across Multiple Regions
+#### Extension: Comparing Peak Timing Across Multiple Regions
 
 I extended the two-state comparison to multiple regions to explore differences in the timing of reported COVID-19 case peaks across geographic areas. The function calculates the peak date for each region, identifies the earliest and latest peaks, and calculates the number of days between them.
 
@@ -104,13 +104,13 @@ To further examine the distribution of peak dates, I counted how many regions ha
     2022-04     1
     2022-07     2
 
-### Key Observation
+#### Observation
 
 The comparison across all regions showed a much larger overall difference in peak timing than the initial 12-state comparison. The selected states had a 19-day gap, while the full dataset had a 632-day gap between the earliest and latest reported peaks.
 
 However, the monthly distribution provides additional context: 47 of the regions had their reported peak in January 2022. Therefore, although the overall range was large, most regions were concentrated around the same period. The relatively small gap among the initially selected states was not representative of the full range, but it was consistent with the broader concentration of peaks around January 2022.
 
-### Limitations
+#### Limitations
 
 The analysis relies on reported case counts rather than the exact dates when infections occurred. Differences in testing, reporting practices, reporting delays, backlogs, and data collection across regions may introduce bias into the reported daily case counts.
 
@@ -123,7 +123,7 @@ The dataset also includes territories and other regions in addition to U.S. stat
 
 The Florida data contain several unusually large changes in reported daily cases.
 
-### Largest Positive Changes
+Largest Positive Changes
 
 | Date | Daily Reported Cases |
 |---|---:|
@@ -132,17 +132,17 @@ The Florida data contain several unusually large changes in reported daily cases
 | January 18, 2022 | 111,621 |
 | January 6, 2023 | 80,749 |
 
-### Largest Negative Change
+Largest Negative Change
 
 | Date | Daily Reported Cases |
 |---|---:|
 | June 4, 2021 | -40,527 |
 
-### Figure
+Figure
 
 ![Florida Daily New COVID-19 Cases](fl_plot.png)
 
-### Key Observations
+#### Key Observations
 
 Florida's largest calculated daily increase was **193,786 cases on January 4, 2022**, which is substantially larger than the surrounding daily values.
 
