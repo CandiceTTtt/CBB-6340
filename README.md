@@ -9,6 +9,7 @@ NetID: xc463
 - `studio1.py`: Main Python script containing the data loading, visualization, peak-date analysis, and Florida anomaly analysis.
 - `us-states.csv`: COVID-19 case data from The New York Times.
 - `daily_cases.png`: Visualization of daily new COVID-19 cases for selected states.
+- `peak_across_states.png`: Visualization of peak timing across the 12 initially selected states.
 - `fl_plot.png`: Visualization of daily new COVID-19 cases for Florida.
 
 
@@ -75,9 +76,15 @@ The peaks were 8 days apart.
 
 I extended the two-state comparison to multiple regions to explore differences in the timing of reported COVID-19 case peaks across geographic areas. The function calculates the peak date for each region, identifies the earliest and latest peaks, and calculates the number of days between them.
 
-I first tested the extension using a selected group of 12 states. Their peak dates were concentrated within a relatively short period, which was smaller than I initially expected. To determine whether this pattern was representative of the broader dataset, I then extended the analysis to all regions included in the dataset.
+I first tested the extension using a selected group of 12 states. Their peak dates were concentrated within a relatively short period, which was smaller than I initially expected. I then extended the analysis to all regions included in the dataset to determine whether this pattern was representative of the broader dataset.
 
-### Example Output
+Example output: Selected States
+
+For the 12 initially selected states, the peak dates ranged from January 3 to January 22, 2022, giving an overall gap of 19 days.
+
+![COVID-19 Peak Timing Across Selected States](peak_across_states.png)
+
+Example output: All Regions
 
 For all regions in the dataset:
 
@@ -87,7 +94,7 @@ For all regions in the dataset:
 
 The earliest reported peak occurred in New Jersey on January 4, 2021, while the latest reported peak occurred in Hawaii on September 28, 2022.
 
-To further examine the distribution of peak dates, I also counted how many regions had their reported peak in each month.
+To further examine the distribution of peak dates, I counted how many regions had their reported peak in each month:
 
     Number of regions by peak month:
     2021-01     1
@@ -99,17 +106,17 @@ To further examine the distribution of peak dates, I also counted how many regio
 
 ### Key Observation
 
-The results provide a more nuanced view of the differences in peak timing across regions. The overall gap between the earliest and latest reported peaks was 632 days, which is much larger than the 19-day gap observed in my initial selection of 12 states.
+The comparison across all regions showed a much larger overall difference in peak timing than the initial 12-state comparison. The selected states had a 19-day gap, while the full dataset had a 632-day gap between the earliest and latest reported peaks.
 
-However, the monthly distribution shows that 47 of the regions had their reported peak in January 2022. This means that although the overall range was very large, most regions were actually highly concentrated around the same period. The very early and late peaks therefore appear to be relatively uncommon compared with the large cluster around January 2022.
-
-This changed my initial interpretation of the selected-state comparison. The small gap among the 12 initially selected states did not represent the full range of the dataset, but the January 2022 concentration also shows that the selected states were not completely unusual. Instead, both the overall range and the concentration of peaks are important for understanding the data.
+However, the monthly distribution provides additional context: 47 of the regions had their reported peak in January 2022. Therefore, although the overall range was large, most regions were concentrated around the same period. The relatively small gap among the initially selected states was not representative of the full range, but it was consistent with the broader concentration of peaks around January 2022.
 
 ### Limitations
 
-There are several limitations to this comparison. The analysis relies on reported case counts rather than the exact dates when infections occurred. Differences in testing, reporting practices, reporting delays, backlogs, and data collection across regions may introduce bias into the reported daily case counts.
+The analysis relies on reported case counts rather than the exact dates when infections occurred. Differences in testing, reporting practices, reporting delays, backlogs, and data collection across regions may introduce bias into the reported daily case counts.
 
-The earliest and latest peak dates may also be influenced by unusual reporting patterns or data revisions, so the 632-day range should not be interpreted as meaning that COVID-19 infections peaked 632 days apart across these regions. The results should instead be interpreted as differences in the timing of the highest reported daily case counts. The comparison with all regions helps provide broader context, but the results are still limited by the quality and consistency of the underlying reported data.
+The earliest and latest peak dates may also be influenced by unusual reporting patterns or data revisions. Therefore, the 632-day range should not be interpreted as meaning that COVID-19 infections actually peaked 632 days apart across these regions. The results represent differences in the timing of the highest reported daily case counts.
+
+The dataset also includes territories and other regions in addition to U.S. states. Therefore, the full-dataset comparison is described as a comparison across regions rather than states.
 
 
 ### 1e. Florida Anomaly Analysis
