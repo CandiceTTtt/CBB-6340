@@ -17,7 +17,7 @@ These data are obtained from [The New York Times COVID-19 Data repository](https
 
 ## Key Outputs, Figures, and Visualizations
 ### 1a. Data Acquisition & Loading
-The dataset contains **61,942 observations and 5 columns**:
+The dataset contains **61942 observations and 5 columns**:
 
 - `date`
 - `state`
@@ -40,11 +40,13 @@ The `plot_daily_cases()` function accepts a list of state names and creates an o
 
 ### Key Observations
 
-The visualization shows that the three states have different patterns and timing of reported COVID-19 case increases.
+The four states show similar overall waves of COVID-19 cases, but the timing and magnitude of these waves differ across states.
 
-Daily reported case counts are highly variable over time, with several sharp spikes rather than smooth trends. Florida shows particularly large spikes compared with the other states.
+California has the largest reported daily case counts in the later part of the dataset, with particularly large spikes around late 2021 and early 2022. New York also shows several pronounced increases, especially during late 2020 and early 2021. Washington and Connecticut generally have lower daily reported case counts compared with California and New York.
 
-The figure also demonstrates that daily reported case counts can contain substantial short-term variation. Therefore, a single-day maximum should be interpreted carefully because it may reflect reporting patterns rather than the true timing of infections.
+Across all four states, the largest increases occur around the end of 2021 and the beginning of 2022, corresponding to a major wave of reported cases. However, the exact timing and size of the peaks vary between states.
+
+The plot also shows substantial day-to-day variation, including sharp individual spikes. Because these values are calculated from cumulative reported cases, some of these spikes may reflect reporting delays, backlogs, or data revisions rather than cases occurring entirely on that specific day. Therefore, the plot is useful for comparing reported case patterns over time, but individual daily peaks should be interpreted with caution.
 
 
 ### 1c. Identifying Peak Case Dates
@@ -57,11 +59,6 @@ Washington peak: 2022-01-18
 Connecticut peak: 2022-01-10
 ```
 
-### Key Outputs
-
-- Washington's highest reported daily case count occurred on **January 18, 2022**.
-- Connecticut's highest reported daily case count occurred on **January 10, 2022**.
-
 
 ### 1d. Comparing Peak Dates Between States
 
@@ -73,6 +70,47 @@ Example output:
 Connecticut reached its peak first.
 The peaks were 8 days apart.
 ```
+
+### Extension: Comparing Peak Timing Across Multiple Regions
+
+I extended the two-state comparison to multiple regions to explore differences in the timing of reported COVID-19 case peaks across geographic areas. The function calculates the peak date for each region, identifies the earliest and latest peaks, and calculates the number of days between them.
+
+I first tested the extension using a selected group of 12 states. Their peak dates were concentrated within a relatively short period, which was smaller than I initially expected. To determine whether this pattern was representative of the broader dataset, I then extended the analysis to all regions included in the dataset.
+
+### Example Output
+
+For all regions in the dataset:
+
+    Earliest peak: 2021-01-04
+    Latest peak: 2022-09-28
+    Overall gap: 632 days
+
+The earliest reported peak occurred in New Jersey on January 4, 2021, while the latest reported peak occurred in Hawaii on September 28, 2022.
+
+To further examine the distribution of peak dates, I also counted how many regions had their reported peak in each month.
+
+    Number of regions by peak month:
+    2021-01     1
+    2021-03     1
+    2022-01    47
+    2022-02     3
+    2022-04     1
+    2022-07     2
+
+### Key Observation
+
+The results provide a more nuanced view of the differences in peak timing across regions. The overall gap between the earliest and latest reported peaks was 632 days, which is much larger than the 19-day gap observed in my initial selection of 12 states.
+
+However, the monthly distribution shows that 47 of the regions had their reported peak in January 2022. This means that although the overall range was very large, most regions were actually highly concentrated around the same period. The very early and late peaks therefore appear to be relatively uncommon compared with the large cluster around January 2022.
+
+This changed my initial interpretation of the selected-state comparison. The small gap among the 12 initially selected states did not represent the full range of the dataset, but the January 2022 concentration also shows that the selected states were not completely unusual. Instead, both the overall range and the concentration of peaks are important for understanding the data.
+
+### Limitations
+
+There are several limitations to this comparison. The analysis relies on reported case counts rather than the exact dates when infections occurred. Differences in testing, reporting practices, reporting delays, backlogs, and data collection across regions may introduce bias into the reported daily case counts.
+
+The earliest and latest peak dates may also be influenced by unusual reporting patterns or data revisions, so the 632-day range should not be interpreted as meaning that COVID-19 infections peaked 632 days apart across these regions. The results should instead be interpreted as differences in the timing of the highest reported daily case counts. The comparison with all regions helps provide broader context, but the results are still limited by the quality and consistency of the underlying reported data.
+
 
 ### 1e. Florida Anomaly Analysis
 
@@ -112,38 +150,36 @@ The unusually large positive spikes may similarly reflect reporting delays or ba
 
 ---
 
-# Code Evolution
+## Code Evolution
 
-The project developed incrementally from the initial in-class studio sketch to the final version. I first loaded the New York Times COVID-19 dataset with pandas and inspected the structure, columns, number of observations, state names, and data types. This initial inspection helped establish what information was available and revealed that the `cases` column contained cumulative rather than daily case counts.
+I started by reading the exercise instructions and developing an overall plan for the analysis. I explored The New York Times GitHub repository to understand the dataset structure, variables, and size, then broke the assignment into smaller steps.
 
-I then converted the `date` column to datetime objects so that dates could be used correctly for plotting and comparison. Before creating generalized functions, I explored the data for an individual state, using California as an example. I compared consecutive cumulative case counts and calculated their differences to verify how daily reported cases could be derived.
+I used Codex to help generate initial versions of the code and then reviewed, tested, and refined the generated code based on the intermediate results. Rather than running the entire script at once, I checked the outputs from each step and used them to guide the next step.
 
-After validating this approach, I created the `plot_daily_cases()` function to apply the same calculation to multiple states and visualize their trends together. I then developed `get_peak_date()` to identify the date associated with the highest calculated daily case count. Finally, I created `compare_peak_dates()` to compare the peak dates of two states and calculate the difference between them.
-
-For the final part of the exercise, I analyzed Florida separately. I used both visualization and numerical inspection of extreme values to identify unusual reporting patterns. This step helped me recognize that the calculated daily case values can be strongly affected by reporting delays, corrections, and revisions to cumulative data.
+For the extension, I initially selected 12 states to compare their peak dates. When I found that their peaks were concentrated within a 19-day window, I extended the analysis to all regions to determine whether this pattern was representative of the broader dataset. I also added a monthly count of peak dates to better understand the distribution.
 
 ---
 
-# Design Choices and Trade-offs
+## Design Choices & Trade-offs
 
-A major design choice was to calculate daily reported cases by taking the difference between consecutive cumulative case counts. This approach is simple, reproducible, and directly follows from the structure of the dataset. It also avoids requiring an additional source of daily case data.
+Most of the code in this exercise uses relatively basic Python and pandas operations, so there were not many complicated technical choices. The part that required the most consideration for me was the visualization.
 
-However, this approach has an important limitation: the resulting daily values represent changes in reported cumulative case counts rather than necessarily the number of infections that occurred on that specific date. Reporting delays, backlogs, corrections, and changes in reporting practices can therefore create unusually large positive or negative values.
+The instructions asked for an overlaid line plot of daily new cases for multiple states. However, the dataset contains a very large number of dates, so plotting every daily value over the full time period makes the figure quite dense and sometimes difficult to read. In particular, California has much larger reported case counts than some of the other selected states, which makes its line much more prominent and can make smaller changes in other states harder to notice. When several states have similar values, their lines can also overlap and become difficult to distinguish. I have not yet found a better way to make the visualization clearer while still following the requested format, so for now I kept the required overlaid line plot and made the figure wider to improve readability.
 
-The first observation for each state has no previous observation with which to calculate a difference, resulting in `NaN`. I used `fillna(0)` for the visualization and subsequent processing so that the resulting series could be handled consistently. This is a practical choice, but the resulting zero should not be interpreted as evidence that exactly zero cases occurred on the first recorded date.
+For the extension, I chose to compare peak dates across multiple states because I wanted to take the analysis one step further and see whether there was a noticeable pattern in the timing of reported COVID-19 peaks across different regions. The selected states showed a smaller gap between peaks than I initially expected. This made the extension useful not only as an additional analysis, but also as a way to compare my initial expectation with what the data actually showed.
 
-I used line plots to visualize daily reported cases because they make changes over time and differences between states easy to see. The trade-off is that daily reported data can be noisy and contain sharp spikes. A smoothed or weekly-average visualization could make broader trends easier to interpret, but the exercise specifically asks for daily new cases.
+There are also limitations in how the peak dates should be interpreted. The peak is defined based on the highest reported daily case count in the dataset, so it represents a peak in reported cases rather than necessarily the true peak in infections. Reporting delays, backlogs, revisions, and differences in reporting practices may affect the timing and magnitude of these reported peaks.
 
-For peak identification, I used the maximum calculated daily reported case count as the definition of a peak. This follows the wording of the exercise and provides a clear and reproducible rule. However, the identified peak may be influenced by reporting artifacts and therefore should not automatically be interpreted as the true epidemiological peak.
+Finally, the states used in the extension were selected by me rather than being a systematic or representative sample of all states. Therefore, the observed differences, or lack of large differences, may not reflect the overall pattern across the United States.
 
 ---
 
-# Key Findings
+## Key Findings
 
-The analysis demonstrates that reported COVID-19 case trends varied substantially across states. In the example comparison, Connecticut reached its highest calculated daily reported case count on January 10, 2022, while Washington reached its peak on January 18, 2022. Connecticut therefore reached its peak **8 days earlier** than Washington.
+The analysis shows substantial differences in reported COVID-19 case patterns across regions. Some states experienced much larger daily increases than others, while the timing and magnitude of peaks also varied considerably. The daily case plots also show that some regions experienced multiple distinct peaks, suggesting repeated waves of increased reported cases rather than a single sustained peak.
 
-The visualization of multiple states also shows that reported daily case counts are highly variable over time. Different states exhibit different timing and magnitudes of increases, and individual days can contain sharp spikes that stand out from the surrounding observations.
+The all-region peak analysis showed that although the overall range between the earliest and latest reported peaks was large, most regions were concentrated around January 2022. Specifically, 47 regions had their highest reported daily case count in January 2022. This suggests that the overall range was driven partly by a smaller number of regions with unusually early or late peaks.
 
-The Florida analysis highlights an important limitation of working with cumulative reported case data. The very large positive value of **193,786 cases on January 4, 2022** and the negative value of **-40,527 cases on June 4, 2021** demonstrate that calculated daily case counts can be strongly affected by reporting practices and revisions.
+The Florida analysis revealed particularly unusual reporting patterns, including a very large positive daily case count of 193,786 on January 4, 2022 and a negative daily case count of -40,527 on June 4, 2021. These values suggest that changes in reported cumulative case counts can reflect data revisions, reporting backlogs, or other reporting practices rather than actual changes in infections on a single day.
 
-These findings suggest that the dataset is useful for examining reported case trends, but individual daily values and peak dates should be interpreted with caution. The exercise also demonstrates the importance of examining intermediate outputs and visualizations before making conclusions from real-world data.
+Overall, the results demonstrate that reported COVID-19 data can contain substantial differences across regions and unusual reporting patterns. Looking at both visual trends and summary statistics is therefore important before interpreting the data or drawing conclusions about actual infection patterns.

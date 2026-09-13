@@ -18,6 +18,8 @@ ca["daily_cases"] = ca["cases"].diff()
 print(ca[["date", "cases", "daily_cases"]].head(10))
 
 def plot_daily_cases(states):
+    plt.figure(figsize=(14, 6))
+
     for state in states:
         state_data = data[data["state"] == state].copy()
         state_data["daily_cases"] = state_data["cases"].diff().fillna(0)
@@ -34,6 +36,7 @@ def plot_daily_cases(states):
     plt.legend()
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.savefig("daily_cases.png")
     plt.show()
 
 
@@ -79,6 +82,82 @@ print(f"{first} reached its peak first.")
 print(f"The peaks were {days} days apart.")
 
 
+## Function to compare between multiple states just to get one more step further
+
+def compare_multiple_peaks(states):
+    peak_dates = {}
+
+    for state in states:
+        peak_dates[state] = get_peak_date(state)
+
+    earliest_date = min(peak_dates.values())
+
+    results = []
+
+    for state, date in peak_dates.items():
+        days_from_earliest = (date - earliest_date).days
+
+        results.append({
+            "state": state,
+            "peak_date": date,
+            "days_from_earliest": days_from_earliest
+        })
+
+    return pd.DataFrame(results).sort_values("peak_date")
+
+states = ["Washington", "California", "Connecticut", "New York", "Florida", "Alaska", 
+          "Pennsylvania", "Texas", "Illinois", "Georgia", "Arizona", "Oregon"]
+peak_comparison = compare_multiple_peaks(states)
+print(peak_comparison)
+
+plt.bar(
+    peak_comparison["state"],
+    peak_comparison["days_from_earliest"]
+)
+
+plt.xlabel("State")
+plt.ylabel("Days After Earliest Peak")
+plt.title("COVID-19 Peak Timing Across States")
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.savefig("peak_across_states.png")
+plt.show()
+
+
+## All states peak comparison
+all_states = data["state"].unique().tolist()
+
+all_peak_comparison = compare_multiple_peaks(all_states)
+
+print(all_peak_comparison)
+
+earliest_peak = all_peak_comparison["peak_date"].min()
+latest_peak = all_peak_comparison["peak_date"].max()
+
+overall_gap = (latest_peak - earliest_peak).days
+
+print(f"Earliest peak: {earliest_peak.strftime('%Y-%m-%d')}")
+print(f"Latest peak: {latest_peak.strftime('%Y-%m-%d')}")
+print(f"Overall gap: {overall_gap} days")
+
+
+# Count the number of regions whose peak occurred in each month
+
+all_peak_comparison["peak_month"] = (
+    all_peak_comparison["peak_date"].dt.to_period("M")
+)
+
+monthly_peak_counts = (
+    all_peak_comparison["peak_month"]
+    .value_counts()
+    .sort_index()
+)
+
+print("\nNumber of regions by peak month:")
+print(monthly_peak_counts)
+
+
+
 # 1e
 fl = data[data["state"] == "Florida"].copy()
 fl["daily_cases"] = fl["cases"].diff()
@@ -87,16 +166,16 @@ print(fl[["date", "cases", "daily_cases"]].sort_values(
     "daily_cases", ascending=False
 ).head(10))
 
+plt.figure(figsize=(14, 6))
 plt.plot(fl["date"], fl["daily_cases"])
 plt.xlabel("Date")
 plt.ylabel("Daily New Cases")
 plt.title("Florida COVID-19 Daily New Cases")
 plt.xticks(rotation=45)
 plt.tight_layout()
+plt.savefig("fl_plot.png")
 plt.show()
 
 
-
 print(fl[["date", "cases", "daily_cases"]].sort_values("daily_cases", ascending=False).head(10))
-
 print(fl[["date", "cases", "daily_cases"]].sort_values("daily_cases").head(10))
